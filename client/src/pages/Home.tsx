@@ -59,11 +59,11 @@ export default function Home() {
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-            Seu site profissional por apenas <span className="gradient-text">R$ 80/mês</span>
+            Sua landing page profissional a partir de <span className="gradient-text">R$ 80/mês</span>
           </h1>
           
           <p className="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
-            Criamos sites modernos, rápidos e responsivos para sua empresa. Sem taxas escondidas, sem surpresas. Apenas qualidade e profissionalismo.
+            Landing pages modernas, rápidas e otimizadas para conversão. Sem taxas escondidas, sem surpresas. Apenas qualidade e profissionalismo.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -90,18 +90,18 @@ export default function Home() {
       <section id="services" className="relative py-20 px-4">
         <div className="container">
           <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className="text-4xl font-bold mb-4">O que você ganha</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">Tudo que sua empresa precisa para ter uma presença online profissional e eficaz</p>
+            <h2 className="text-4xl font-bold mb-4">Recursos da Landing Page</h2>
+            <p className="text-slate-400 max-w-2xl mx-auto">Tudo que você precisa para captar leads e converter visitantes em clientes</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { icon: Code2, title: "Design Moderno", desc: "Interfaces limpas e intuitivas que convertem visitantes em clientes" },
-              { icon: Smartphone, title: "Responsivo", desc: "Funciona perfeitamente em celulares, tablets e desktops" },
-              { icon: Zap, title: "Rápido", desc: "Otimizado para velocidade máxima e melhor SEO" },
-              { icon: Shield, title: "Seguro", desc: "Certificado SSL e proteção contra ataques" },
-              { icon: Code2, title: "SEO Pronto", desc: "Otimizado para aparecer nos resultados do Google" },
-              { icon: MessageCircle, title: "Suporte", desc: "Suporte contínuo e atualizações sempre que precisar" },
+              { icon: Code2, title: "Design Atrativo", desc: "Visual profissional que captura atenção e gera confiança" },
+              { icon: Smartphone, title: "100% Responsivo", desc: "Perfeito em celulares, tablets e desktops" },
+              { icon: Zap, title: "Ultra Rápido", desc: "Carregamento otimizado para melhor experiência" },
+              { icon: Shield, title: "Seguro", desc: "Certificado SSL e proteção completa" },
+              { icon: Code2, title: "SEO Otimizado", desc: "Pronto para aparecer no Google" },
+              { icon: MessageCircle, title: "Conversão Focada", desc: "CTAs estratégicos para maximizar leads" },
             ].map((service, idx) => (
               <div 
                 key={idx} 
@@ -123,30 +123,31 @@ export default function Home() {
       <section id="pricing" className="relative py-20 px-4">
         <div className="container">
           <div className="text-center mb-16 animate-fadeInUp">
-            <h2 className="text-4xl font-bold mb-4">Preço Transparente</h2>
-            <p className="text-slate-400">Um único plano, sem surpresas. Tudo que você precisa incluído.</p>
+            <h2 className="text-4xl font-bold mb-4">Preço Simples e Transparente</h2>
+            <p className="text-slate-400">A partir de R$ 80/mês. Sem taxas escondidas, sem surpresas.</p>
           </div>
 
           <div className="max-w-md mx-auto">
             <div className="glass p-8 border-2 border-cyan-500/50 hover:border-cyan-500 transition-all">
-              <h3 className="text-2xl font-bold mb-2">Plano Profissional</h3>
-              <p className="text-slate-400 mb-6">Ideal para empresas que querem presença online forte</p>
+              <h3 className="text-2xl font-bold mb-2">Landing Page Profissional</h3>
+              <p className="text-slate-400 mb-6">Perfeita para captar leads e converter visitantes em clientes</p>
               
               <div className="mb-8">
-                <span className="text-5xl font-bold gradient-text">R$ 80</span>
+                <span className="text-5xl font-bold gradient-text">A partir de</span>
+                <div className="text-5xl font-bold gradient-text mt-2">R$ 80</div>
                 <span className="text-slate-400">/mês</span>
               </div>
 
               <ul className="space-y-4 mb-8">
                 {[
-                  "Site responsivo e moderno",
-                  "Até 5 páginas",
+                  "Landing page responsiva e moderna",
+                  "Design personalizado para sua marca",
                   "Otimizado para SEO",
                   "Certificado SSL",
-                  "Suporte por email",
-                  "Atualizações mensais",
-                  "Analytics integrado",
-                  "Backup automático",
+                  "Atualizações e manutenção",
+                  "Formulário de contato integrado",
+                  "Integração com WhatsApp",
+                  "Performance otimizada",
                 ].map((feature, idx) => (
                   <li key={idx} className="flex items-center gap-3">
                     <div className="w-5 h-5 rounded-full bg-gradient-to-br from-cyan-400 to-purple-400 flex items-center justify-center flex-shrink-0">
@@ -163,7 +164,7 @@ export default function Home() {
                 rel="noopener noreferrer"
                 className="w-full bg-gradient-to-r from-cyan-500 to-purple-500 py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 text-center block"
               >
-                Contratar Agora
+                Solicitar Orçamento
               </a>
             </div>
           </div>
@@ -184,15 +185,15 @@ export default function Home() {
         <div className="container">
           <div className="text-center mb-16 animate-fadeInUp">
             <h2 className="text-4xl font-bold mb-4">Como Funciona</h2>
-            <p className="text-slate-400">Processo simples e rápido para colocar seu site no ar</p>
+            <p className="text-slate-400">Processo simples e rápido para sua landing page estar online</p>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             {[
-              { step: "01", title: "Conversa", desc: "Entendemos suas necessidades e objetivos" },
-              { step: "02", title: "Design", desc: "Criamos um design personalizado para sua marca" },
-              { step: "03", title: "Desenvolvimento", desc: "Construímos seu site com as melhores tecnologias" },
-              { step: "04", title: "Lançamento", desc: "Seu site fica online e pronto para vender" },
+              { step: "01", title: "Conversa", desc: "Entendemos seus objetivos e público-alvo" },
+              { step: "02", title: "Design", desc: "Criamos um design focado em conversão" },
+              { step: "03", title: "Desenvolvimento", desc: "Construímos sua landing page otimizada" },
+              { step: "04", title: "Lançamento", desc: "Sua página fica online e gerando leads" },
             ].map((item, idx) => (
               <div 
                 key={idx} 
@@ -212,9 +213,9 @@ export default function Home() {
       <section className="relative py-20 px-4">
         <div className="container max-w-3xl mx-auto">
           <div className="glass p-12 text-center border-2 border-cyan-500/50 hover:border-cyan-500 transition-all">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pronto para transformar sua presença online?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Pronto para captar mais leads?</h2>
             <p className="text-slate-300 mb-8 max-w-xl mx-auto">
-              Entre em contato conosco agora e receba uma proposta personalizada para seu negócio.
+              Entre em contato conosco agora e receba uma proposta personalizada para sua landing page.
             </p>
             <a 
               href={whatsappLink} 
