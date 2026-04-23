@@ -64,8 +64,8 @@ export default function Home() {
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-6 flex justify-between items-center">
-        <div className="text-2xl font-black">
-          <span className="text-green-400">JBRASIL</span>
+        <div className="flex items-center gap-3">
+          <img src="/manus-storage/jbrasil_labs_logo_e6323550.png" alt="JBrasil Labs" className="h-10 w-auto" />
         </div>
         <a
           href={whatsappLink}
