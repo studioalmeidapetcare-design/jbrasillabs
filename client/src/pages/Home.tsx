@@ -1,5 +1,6 @@
 import { ArrowRight, Code2, Smartphone, Zap, Shield, MessageCircle, Sparkles, Rocket, Grid3x3, Cpu, Layers, CheckCircle2, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
+import { usePageLoadAnimation, useMouseParallax, useIntersectionAnimation, useCursorGlow } from "@/components/AnimationProvider";
 
 /**
  * JBrasil Labs - Baunfire-Inspired Design
@@ -10,6 +11,12 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const heroRef = useMouseParallax();
+
+  // Initialize all animations
+  usePageLoadAnimation();
+  useIntersectionAnimation();
+  useCursorGlow();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,57 +59,57 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-32 px-4 overflow-hidden">
-        <div className="container max-w-6xl mx-auto">
+      <section ref={heroRef} className="relative pt-40 pb-32 px-4 overflow-hidden">
+        <div className="container max-w-6xl mx-auto" data-animate>
           <div className="grid md:grid-cols-2 gap-16 items-center">
             {/* Left content */}
             <div className="relative z-10">
-              <div className="mb-8 flex items-center gap-3">
-                <div className="text-xs font-black text-lime-400 tracking-widest">WE ARE JBRASIL</div>
+              <div className="mb-8 flex items-center gap-3" data-animate>
+                <div className="text-xs font-black text-lime-400 tracking-widest">SOMOS JBRASIL</div>
                 <div className="w-8 h-px bg-lime-400"></div>
               </div>
 
-              <h1 className="text-6xl md:text-7xl font-black leading-tight mb-8 tracking-tight">
+              <h1 className="text-6xl md:text-7xl font-black leading-tight mb-8 tracking-tight" data-animate>
                 Landing Pages
                 <br />
-                <span className="text-lime-400">Que Vendem</span>
+                <span className="text-lime-400">Que Convertem</span>
               </h1>
 
-              <p className="text-lg text-slate-300 mb-12 max-w-md leading-relaxed font-light">
+              <p className="text-lg text-slate-300 mb-12 max-w-md leading-relaxed font-light" data-animate>
                 Páginas de alta performance, otimizadas para conversão. Design minimalista com impacto máximo.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-6">
+              <div className="flex flex-col sm:flex-row gap-6" data-animate>
                 <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="group relative inline-flex items-center justify-center gap-2 px-8 py-4 font-bold overflow-hidden">
                   <div className="absolute inset-0 bg-lime-400 group-hover:bg-yellow-400 transition-colors"></div>
                   <span className="relative z-10 text-black flex items-center gap-2">
-                    GET TO KNOW US
+                    COMEÇAR AGORA
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </a>
                 <button className="px-8 py-4 border-2 border-dashed border-lime-400 font-bold hover:bg-lime-400/10 transition-all">
-                  VIEW WORK
+                  VER PORTFÓLIO
                 </button>
               </div>
             </div>
 
             {/* Right decorative area */}
             <div className="relative h-96 md:h-full">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/5 rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-400/5 rounded-full blur-3xl"></div>
+              <div className="absolute top-0 right-0 w-64 h-64 bg-lime-400/5 rounded-full blur-3xl" data-parallax="2"></div>
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-cyan-400/5 rounded-full blur-3xl" data-parallax="1.5"></div>
               
               {/* Decorative elements */}
-              <div className="absolute top-20 right-20 text-6xl font-black text-slate-800">A</div>
-              <div className="absolute bottom-40 right-40 w-12 h-12 border-2 border-dashed border-lime-400"></div>
-              <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-yellow-400"></div>
+              <div className="absolute top-20 right-20 text-6xl font-black text-slate-800" data-parallax="3">A</div>
+              <div className="absolute bottom-40 right-40 w-12 h-12 border-2 border-dashed border-lime-400" data-parallax="2.5"></div>
+              <div className="absolute top-1/2 right-1/4 w-3 h-3 bg-yellow-400" data-parallax="2"></div>
               <GeometricDecor className="top-1/4 right-1/3" />
               <GeometricDecor className="bottom-1/4 right-1/2" />
             </div>
           </div>
 
           {/* Scroll indicator */}
-          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-black text-slate-600 tracking-widest">
-            SCROLL
+          <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-xs font-black text-slate-600 tracking-widest animate-bounce">
+            ROLE PARA VER
           </div>
         </div>
       </section>
@@ -110,10 +117,10 @@ export default function Home() {
       {/* Services Section */}
       <section id="services" className="relative py-32 px-4 border-t border-lime-400/20">
         <div className="container max-w-6xl mx-auto">
-          <div className="mb-20">
+          <div className="mb-20" data-scroll-animate>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-lime-400"></div>
-              <span className="text-xs font-black text-lime-400 tracking-widest">WHAT WE DO</span>
+              <span className="text-xs font-black text-lime-400 tracking-widest">O QUE FAZEMOS</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-black leading-tight">
               Serviços
@@ -143,7 +150,7 @@ export default function Home() {
                 accent: "cyan-400"
               }
             ].map((service, idx) => (
-              <div key={idx} className="group relative">
+              <div key={idx} className="group relative" data-scroll-animate>
                 <div className={`text-7xl font-black text-slate-800 mb-8 group-hover:text-${service.accent} transition-colors`}>
                   {service.number}
                 </div>
@@ -159,10 +166,10 @@ export default function Home() {
       {/* Portfolio Section */}
       <section className="relative py-32 px-4 border-t border-lime-400/20">
         <div className="container max-w-6xl mx-auto">
-          <div className="mb-20">
+          <div className="mb-20" data-scroll-animate>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-yellow-400"></div>
-              <span className="text-xs font-black text-yellow-400 tracking-widest">PORTFOLIO</span>
+              <span className="text-xs font-black text-yellow-400 tracking-widest">PORTFÓLIO</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-black">
               Projetos
@@ -173,18 +180,18 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {[
-              { title: "Landing Page Tech", category: "Web Design" },
-              { title: "E-commerce Premium", category: "Development" },
-              { title: "SaaS Platform", category: "Full Stack" },
-              { title: "Corporate Site", category: "Design" }
+              { title: "Landing Page Tech", category: "Design Web" },
+              { title: "E-commerce Premium", category: "Desenvolvimento" },
+              { title: "Plataforma SaaS", category: "Full Stack" },
+              { title: "Site Corporativo", category: "Design" }
             ].map((project, idx) => (
-              <div key={idx} className="group relative p-8 border-2 border-dashed border-slate-700 hover:border-lime-400 transition-all cursor-pointer overflow-hidden">
+              <div key={idx} className="group relative p-8 border-2 border-dashed border-slate-700 hover:border-lime-400 transition-all cursor-pointer overflow-hidden" data-scroll-animate>
                 <div className="absolute inset-0 bg-lime-400/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative z-10">
                   <div className="text-xs font-black text-slate-500 mb-4 tracking-widest">{project.category}</div>
                   <h3 className="text-2xl font-black mb-4 group-hover:text-lime-400 transition-colors">{project.title}</h3>
                   <div className="flex items-center gap-2 text-slate-400 group-hover:text-lime-400 transition-colors">
-                    <span className="font-bold">View Project</span>
+                    <span className="font-bold">Ver Projeto</span>
                     <ExternalLink className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                   </div>
                 </div>
@@ -197,10 +204,10 @@ export default function Home() {
       {/* Pricing Section */}
       <section id="pricing" className="relative py-32 px-4 border-t border-lime-400/20">
         <div className="container max-w-4xl mx-auto">
-          <div className="mb-20">
+          <div className="mb-20" data-scroll-animate>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-cyan-400"></div>
-              <span className="text-xs font-black text-cyan-400 tracking-widest">PRICING</span>
+              <span className="text-xs font-black text-cyan-400 tracking-widest">PREÇOS</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-black">
               Simples e
@@ -209,13 +216,13 @@ export default function Home() {
             </h2>
           </div>
 
-          <div className="relative p-12 border-2 border-dashed border-cyan-400">
+          <div className="relative p-12 border-2 border-dashed border-cyan-400" data-scroll-animate>
             <div className="absolute -top-4 -right-4 w-8 h-8 bg-cyan-400 flex items-center justify-center">
               <span className="text-black font-black text-sm">$</span>
             </div>
 
             <h3 className="text-3xl font-black mb-4">Landing Page Profissional</h3>
-            <p className="text-slate-400 mb-8">Tudo que você precisa para começar</p>
+            <p className="text-slate-400 mb-8">Tudo que você precisa para começar a vender</p>
 
             <div className="mb-10">
               <div className="text-5xl font-black">
@@ -229,7 +236,7 @@ export default function Home() {
                 "Landing page responsiva e moderna",
                 "Design personalizado",
                 "Otimizado para SEO",
-                "SSL Certificate",
+                "Certificado SSL",
                 "Manutenção incluída",
                 "Integração WhatsApp",
                 "Performance otimizada"
@@ -242,7 +249,7 @@ export default function Home() {
             </ul>
 
             <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block w-full py-4 px-8 bg-lime-400 text-black font-black text-center hover:bg-yellow-400 transition-all">
-              GET STARTED
+              COMEÇAR AGORA
             </a>
           </div>
         </div>
@@ -251,10 +258,10 @@ export default function Home() {
       {/* Process Section */}
       <section id="about" className="relative py-32 px-4 border-t border-lime-400/20">
         <div className="container max-w-6xl mx-auto">
-          <div className="mb-20">
+          <div className="mb-20" data-scroll-animate>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-2 h-2 bg-yellow-400"></div>
-              <span className="text-xs font-black text-yellow-400 tracking-widest">PROCESS</span>
+              <span className="text-xs font-black text-yellow-400 tracking-widest">PROCESSO</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-black">
               Como
@@ -267,10 +274,10 @@ export default function Home() {
             {[
               { step: "01", title: "Conversa", desc: "Entendemos seus objetivos" },
               { step: "02", title: "Design", desc: "Criamos um design único" },
-              { step: "03", title: "Build", desc: "Desenvolvemos sua página" },
-              { step: "04", title: "Launch", desc: "Sua página gera leads" }
+              { step: "03", title: "Desenvolvimento", desc: "Desenvolvemos sua página" },
+              { step: "04", title: "Lançamento", desc: "Sua página gera leads" }
             ].map((item, idx) => (
-              <div key={idx} className="relative group">
+              <div key={idx} className="relative group" data-scroll-animate>
                 {/* Connection line */}
                 {idx < 3 && (
                   <div className="hidden md:block absolute top-8 -right-4 w-8 h-px bg-dashed border-t-2 border-dashed border-slate-700 group-hover:border-lime-400 transition-colors"></div>
@@ -290,7 +297,7 @@ export default function Home() {
       {/* Final CTA */}
       <section className="relative py-32 px-4 border-t border-lime-400/20">
         <div className="container max-w-4xl mx-auto">
-          <div className="relative p-16 border-2 border-dashed border-lime-400 bg-lime-400/5">
+          <div className="relative p-16 border-2 border-dashed border-lime-400 bg-lime-400/5" data-scroll-animate>
             <div className="absolute -top-4 -left-4 w-8 h-8 bg-lime-400"></div>
             <div className="absolute -bottom-4 -right-4 w-8 h-8 bg-yellow-400"></div>
 
@@ -304,7 +311,7 @@ export default function Home() {
             </p>
             <div className="flex justify-center">
               <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="px-12 py-4 bg-lime-400 text-black font-black hover:bg-yellow-400 transition-all flex items-center gap-2">
-                LET'S TALK
+                VAMOS CONVERSAR
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>
@@ -324,23 +331,23 @@ export default function Home() {
               <p className="text-slate-400 text-sm">Landing pages que convertem.</p>
             </div>
             <div>
-              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">SERVICES</h4>
+              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">SERVIÇOS</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
                 <li><a href="#services" className="hover:text-lime-400 transition-colors">Design</a></li>
-                <li><a href="#services" className="hover:text-lime-400 transition-colors">Development</a></li>
+                <li><a href="#services" className="hover:text-lime-400 transition-colors">Desenvolvimento</a></li>
                 <li><a href="#services" className="hover:text-lime-400 transition-colors">SEO</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">COMPANY</h4>
+              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">EMPRESA</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="#about" className="hover:text-lime-400 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-lime-400 transition-colors">Work</a></li>
-                <li><a href="#" className="hover:text-lime-400 transition-colors">Contact</a></li>
+                <li><a href="#about" className="hover:text-lime-400 transition-colors">Sobre</a></li>
+                <li><a href="#" className="hover:text-lime-400 transition-colors">Portfólio</a></li>
+                <li><a href="#" className="hover:text-lime-400 transition-colors">Contato</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">CONTACT</h4>
+              <h4 className="font-black mb-4 text-lime-400 text-sm tracking-widest">CONTATO</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
                 <li><a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="hover:text-lime-400 transition-colors">WhatsApp</a></li>
                 <li><a href="mailto:contato@jbrasillabs.com.br" className="hover:text-lime-400 transition-colors">Email</a></li>
@@ -348,7 +355,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-slate-800 pt-8 text-center text-slate-600 text-sm">
-            <p>© 2026 JBrasil Labs. All rights reserved.</p>
+            <p>© 2026 JBrasil Labs. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
