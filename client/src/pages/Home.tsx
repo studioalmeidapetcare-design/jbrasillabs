@@ -225,6 +225,52 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Digital Identity Section */}
+      <section className="relative py-32 px-4 border-t border-green-400/10 bg-gradient-to-br from-green-400/5 via-transparent to-yellow-400/5">
+        <div className="container max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-16 items-center">
+            <div data-scroll-animate>
+              <h2 className="text-6xl md:text-7xl font-black mb-8">
+                Sua Identidade
+                <br />
+                <span className="bg-gradient-to-r from-green-400 via-yellow-400 to-red-400 bg-clip-text text-transparent">Digital</span>
+              </h2>
+              <p className="text-xl text-slate-300 mb-6 leading-relaxed">
+                No mundo digital, sua presença online é o primeiro contato com seus clientes. Uma identidade visual forte e profissional não é luxo, é necessidade.
+              </p>
+              <p className="text-lg text-slate-400 mb-8">
+                Sabemos que tempo é dinheiro. Por isso, entregamos sua landing page em menos de 48 horas.
+              </p>
+              <div className="flex items-center gap-4 p-6 border border-green-400/30 bg-green-400/5 backdrop-blur-sm">
+                <div className="text-5xl font-black text-green-400">R$ 450</div>
+                <div>
+                  <div className="text-sm font-black text-yellow-400">IDENTIDADE DIGITAL COMPLETA</div>
+                  <div className="text-xs text-slate-400">Em menos de 48 horas</div>
+                </div>
+              </div>
+            </div>
+            <div data-scroll-animate className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-yellow-400/20 blur-3xl rounded-full"></div>
+              <div className="relative space-y-6">
+                {[
+                  { icon: '⚡', title: 'Rápido', desc: 'Entrega em 48 horas' },
+                  { icon: '🎯', title: 'Efetivo', desc: 'Convertendo visitantes' },
+                  { icon: '🔒', title: 'Seguro', desc: 'SSL e backup inclusos' },
+                ].map((item, idx) => (
+                  <div key={idx} className="flex items-start gap-4 p-4 border border-yellow-400/20 bg-yellow-400/5 backdrop-blur-sm hover:border-yellow-400/50 transition-all" data-scroll-animate style={{ animationDelay: `${idx * 100}ms` }}>
+                    <div className="text-3xl">{item.icon}</div>
+                    <div>
+                      <h3 className="font-black text-white">{item.title}</h3>
+                      <p className="text-sm text-slate-400">{item.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section className="relative py-32 px-4 border-t border-green-400/10">
         <div className="container max-w-4xl mx-auto">
