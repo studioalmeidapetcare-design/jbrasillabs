@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
+import WhatsAppWidget from '@/components/WhatsAppWidget';
 
 interface Particle {
   id: number;
@@ -637,6 +638,9 @@ export default function Home() {
           <p>© 2026 JBrasil Labs. {t.allRightsReserved}</p>
         </div>
       </footer>
+
+      {/* WhatsApp Widget */}
+      <WhatsAppWidget phoneNumber="5511999999999" message="Olá! Gostaria de saber mais sobre os serviços da JBrasil Labs." />
 
       <style>{`
         @keyframes fade-in {
