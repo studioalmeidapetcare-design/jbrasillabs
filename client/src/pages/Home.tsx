@@ -1,16 +1,26 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
 
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  opacity: number;
+}
+
 export default function Home() {
   const whatsappLink = "https://wa.me/message/UFGRJBVOAYWQN1";
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [mouseVelocity, setMouseVelocity] = useState({ x: 0, y: 0 });
   const [language, setLanguage] = useState('pt');
   const [showMenu, setShowMenu] = useState(false);
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
+  const [particles, setParticles] = useState<Particle[]>([] as Particle[]);
   const containerRef = useRef<HTMLDivElement>(null);
-  const lastMousePos = useRef({ x: 0, y: 0 });
-  const particlesRef = useRef<HTMLDivElement[]>([]);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animationRef = useRef<number | undefined>(undefined);
 
   const translations = {
     pt: {
@@ -49,16 +59,6 @@ export default function Home() {
       secureDesc: 'SSL e backup inclusos',
       completeIdentity: 'IDENTIDADE DIGITAL COMPLETA',
       inLessThan48: 'Em menos de 48 horas',
-      simplePrice: 'Preço Simples',
-      professionalLanding: 'Landing Page Profissional',
-      responsiveLanding: 'Landing page responsiva',
-      customDesign: 'Design personalizado',
-      seoOptimized: 'Otimizado para SEO',
-      sslCertificate: 'Certificado SSL',
-      maintenanceIncluded: 'Manutenção incluída',
-      whatsappIntegration: 'Integração WhatsApp',
-      optimizedPerformance: 'Performance otimizada',
-      startNow: 'COMEÇAR AGORA',
       howItWorks: 'Como funciona',
       conversation: 'Conversa',
       understandObjectives: 'Entendemos seus objetivos',
@@ -110,16 +110,6 @@ export default function Home() {
       secureDesc: 'SSL and backups included',
       completeIdentity: 'COMPLETE DIGITAL IDENTITY',
       inLessThan48: 'In less than 48 hours',
-      simplePrice: 'Simple Price',
-      professionalLanding: 'Professional Landing Page',
-      responsiveLanding: 'Responsive landing page',
-      customDesign: 'Custom design',
-      seoOptimized: 'Optimized for SEO',
-      sslCertificate: 'SSL Certificate',
-      maintenanceIncluded: 'Maintenance included',
-      whatsappIntegration: 'WhatsApp Integration',
-      optimizedPerformance: 'Optimized performance',
-      startNow: 'START NOW',
       howItWorks: 'How it works',
       conversation: 'Conversation',
       understandObjectives: 'We understand your objectives',
@@ -171,16 +161,6 @@ export default function Home() {
       secureDesc: 'SSL y copias de seguridad incluidas',
       completeIdentity: 'IDENTIDAD DIGITAL COMPLETA',
       inLessThan48: 'En menos de 48 horas',
-      simplePrice: 'Precio Simple',
-      professionalLanding: 'Página de Destino Profesional',
-      responsiveLanding: 'Página de destino responsiva',
-      customDesign: 'Diseño personalizado',
-      seoOptimized: 'Optimizado para SEO',
-      sslCertificate: 'Certificado SSL',
-      maintenanceIncluded: 'Mantenimiento incluido',
-      whatsappIntegration: 'Integración de WhatsApp',
-      optimizedPerformance: 'Rendimiento optimizado',
-      startNow: 'COMENZAR AHORA',
       howItWorks: 'Cómo funciona',
       conversation: 'Conversación',
       understandObjectives: 'Entendemos tus objetivos',
@@ -200,35 +180,115 @@ export default function Home() {
 
   const t = translations[language as keyof typeof translations];
 
+  // Initialize particles
+  useEffect(() => {
+    const particleCount = 50;
+    const newParticles: Particle[] = [];
+    
+    for (let i = 0; i < particleCount; i++) {
+      newParticles.push({
+        id: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        vx: (Math.random() - 0.5) * 2,
+        vy: (Math.random() - 0.5) * 2,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.5 + 0.3
+      });
+    }
+    setParticles(newParticles);
+  }, []);
+
+  // Animate particles
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const animate = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      setParticles(prevParticles => {
+        return prevParticles.map(particle => {
+          let newX = particle.x + particle.vx;
+          let newY = particle.y + particle.vy;
+          let newVx = particle.vx;
+          let newVy = particle.vy;
+
+          // Bounce off edges
+          if (newX < 0 || newX > canvas.width) newVx *= -1;
+          if (newY < 0 || newY > canvas.height) newVy *= -1;
+
+          newX = Math.max(0, Math.min(canvas.width, newX));
+          newY = Math.max(0, Math.min(canvas.height, newY));
+
+          // Draw particle
+          ctx.fillStyle = `rgba(0, 255, 0, ${particle.opacity})`;
+          ctx.beginPath();
+          ctx.arc(newX, newY, particle.size, 0, Math.PI * 2);
+          ctx.fill();
+
+          // Draw connections
+          prevParticles.forEach(otherParticle => {
+            const dx = newX - otherParticle.x;
+            const dy = newY - otherParticle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 150) {
+              ctx.strokeStyle = `rgba(0, 255, 0, ${(1 - distance / 150) * 0.2})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(newX, newY);
+              ctx.lineTo(otherParticle.x, otherParticle.y);
+              ctx.stroke();
+            }
+          });
+
+          return {
+            ...particle,
+            x: newX,
+            y: newY,
+            vx: newVx,
+            vy: newVy
+          };
+        });
+      });
+
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    animationRef.current = requestAnimationFrame(animate);
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  // Mouse move handler
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const newX = e.clientX;
-      const newY = e.clientY;
-
-      const vx = newX - lastMousePos.current.x;
-      const vy = newY - lastMousePos.current.y;
-      setMouseVelocity({ x: vx, y: vy });
-
-      setMousePos({ x: newX, y: newY });
-      lastMousePos.current = { x: newX, y: newY };
-
-      if (particlesRef.current) {
-        particlesRef.current.forEach((el, idx) => {
-          if (el) {
-            const angle = (idx * Math.PI * 2) / particlesRef.current.length;
-            const distance = 150 + Math.sin(Date.now() / 1000 + idx) * 30;
-            const x = Math.cos(angle) * distance + (newX - window.innerWidth / 2) * 0.05;
-            const y = Math.sin(angle) * distance + (newY - window.innerHeight / 2) * 0.05;
-            el.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-          }
-        });
-      }
+      setMousePos({ x: e.clientX, y: e.clientY });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
+  // Scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -249,49 +309,12 @@ export default function Home() {
   }, []);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-black text-white overflow-hidden">
-      {/* Grid background */}
-      <div className="fixed inset-0 z-0 opacity-5">
-        <svg width="100%" height="100%">
-          <defs>
-            <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#00ff00" strokeWidth="0.5" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
-      {/* Cursor glow */}
-      <div
-        className="fixed w-64 h-64 bg-gradient-to-r from-green-400/40 via-cyan-400/30 to-green-400/40 rounded-full blur-3xl pointer-events-none z-0"
-        style={{
-          left: `${mousePos.x - 128}px`,
-          top: `${mousePos.y - 128}px`,
-          transition: 'all 0.05s ease-out',
-          opacity: Math.min(1, 0.4 + Math.sqrt(mouseVelocity.x ** 2 + mouseVelocity.y ** 2) / 1000),
-        }}
+    <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden">
+      {/* Animated particles canvas */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 z-0 pointer-events-none"
       />
-
-      {/* Animated particles */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {[0, 1, 2, 3, 4].map((idx) => (
-          <div
-            key={idx}
-            ref={(el) => {
-              if (el) particlesRef.current[idx] = el;
-            }}
-            className={`absolute top-1/2 left-1/2 w-3 h-3 rounded-full shadow-lg ${
-              idx % 2 === 0
-                ? 'bg-green-400 shadow-green-400/50'
-                : 'bg-cyan-400 shadow-cyan-400/50'
-            }`}
-            style={{
-              animation: `float ${3 + idx}s ease-in-out infinite`,
-            }}
-          />
-        ))}
-      </div>
 
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 px-8 py-5 flex justify-between items-center backdrop-blur-lg bg-black/40 border-b border-green-400/20">
@@ -320,9 +343,6 @@ export default function Home() {
                 </a>
                 <a href="#services" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
                   {t.services}
-                </a>
-                <a href="#pricing" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
-                  {t.pricing}
                 </a>
                 <a href="#process" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
                   {t.process}
@@ -530,7 +550,7 @@ export default function Home() {
               {t.identityText}
             </p>
 
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="grid md:grid-cols-3 gap-6">
               {[
                 { icon: Rocket, label: t.fast, desc: t.fastDesc },
                 { icon: TrendingUp, label: t.effective, desc: t.effectiveDesc },
@@ -543,64 +563,6 @@ export default function Home() {
                 </div>
               ))}
             </div>
-
-            <div className="bg-black/50 border border-green-400/30 rounded-lg p-6 text-center">
-              <div className="text-4xl font-black text-green-400 mb-2">R$ 450</div>
-              <div className="text-gray-300">{t.completeIdentity}</div>
-              <div className="text-sm text-gray-400 mt-2">{t.inLessThan48}</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="relative z-10 py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div
-            data-animate
-            className="text-center mb-16 opacity-0 animate-fade-in"
-          >
-            <h2 className="text-5xl md:text-6xl font-black mb-4">
-              {t.simplePrice}
-            </h2>
-          </div>
-
-          <div
-            data-animate
-            className="border border-green-400/50 rounded-2xl p-12 backdrop-blur-sm bg-green-400/5 opacity-0 animate-fade-in"
-          >
-            <h3 className="text-3xl font-bold mb-6">{t.professionalLanding}</h3>
-            <div className="text-5xl font-black text-green-400 mb-8">R$ 450</div>
-
-            <ul className="space-y-4 mb-12">
-              {[
-                t.responsiveLanding,
-                t.customDesign,
-                t.seoOptimized,
-                t.sslCertificate,
-                t.maintenanceIncluded,
-                t.whatsappIntegration,
-                t.optimizedPerformance
-              ].map((feature, idx) => (
-                <li key={idx} className="flex items-center gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
-                  <span className="text-gray-300">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative w-full px-8 py-4 font-bold text-lg overflow-hidden rounded-lg block text-center"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
-              <span className="relative z-10 text-black flex items-center justify-center gap-2">
-                {t.startNow}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </a>
           </div>
         </div>
       </section>
@@ -685,15 +647,6 @@ export default function Home() {
           to {
             opacity: 1;
             transform: translateY(0);
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px);
-          }
-          50% {
-            transform: translateY(-20px);
           }
         }
 
