@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Zap, TrendingUp, Shield } from 'lucide-react';
 
 export default function Home() {
   const whatsappLink = "https://wa.me/message/UFGRJBVOAYWQN1";
@@ -189,32 +189,38 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: 'Design Profissional',
-                desc: 'Interface minimalista que converte visitantes em clientes',
-                icon: '🎨',
+                title: 'Design Futurista',
+                desc: 'Interfaces que convertem',
+                Icon: Zap,
+                color: 'text-green-400',
               },
               {
-                title: 'SEO Otimizado',
-                desc: 'Apareça no Google e atraia tráfego qualificado',
-                icon: '📈',
+                title: 'SEO Integrado',
+                desc: 'Tráfego orgânico garantido',
+                Icon: TrendingUp,
+                color: 'text-yellow-400',
               },
               {
-                title: 'Suporte 24/7',
-                desc: 'Manutenção, atualizações e suporte inclusos',
-                icon: '🚀',
+                title: 'Suporte Contínuo',
+                desc: 'Sempre disponível para você',
+                Icon: Shield,
+                color: 'text-red-400',
               },
-            ].map((service, idx) => (
-              <div
-                key={idx}
-                className="relative p-8 border border-green-400/20 hover:border-green-400/50 transition-all group backdrop-blur-sm bg-green-400/5 hover:bg-green-400/10"
-                data-scroll-animate
-              >
-                <div className="text-5xl mb-4">{service.icon}</div>
-                <h3 className="text-2xl font-black mb-4">{service.title}</h3>
-                <p className="text-slate-400">{service.desc}</p>
-                <div className="absolute top-0 right-0 w-1 h-12 bg-gradient-to-b from-green-400 to-transparent group-hover:h-full transition-all duration-300"></div>
-              </div>
-            ))}
+            ].map((service, idx) => {
+              const { Icon, color } = service;
+              return (
+                <div
+                  key={idx}
+                  className="relative p-8 border border-green-400/20 hover:border-green-400/50 transition-all group backdrop-blur-sm bg-green-400/5 hover:bg-green-400/10"
+                  data-scroll-animate
+                >
+                  <Icon className={`w-12 h-12 mb-4 ${color} group-hover:scale-110 transition-transform`} />
+                  <h3 className="text-xl font-black mb-2">{service.title}</h3>
+                  <p className="text-slate-400 text-sm">{service.desc}</p>
+                  <div className="absolute top-0 right-0 w-1 h-12 bg-gradient-to-b from-green-400 to-transparent group-hover:h-full transition-all duration-300"></div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
