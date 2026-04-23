@@ -202,22 +202,22 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="relative py-32 px-4 border-t border-lime-400/20">
+      <section id="pricing" className="relative py-32 px-4 border-t border-red-400/20">
         <div className="container max-w-4xl mx-auto">
           <div className="mb-20" data-scroll-animate>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-2 h-2 bg-cyan-400"></div>
-              <span className="text-xs font-black text-cyan-400 tracking-widest">PREÇOS</span>
+              <div className="w-2 h-2 bg-red-400"></div>
+              <span className="text-xs font-black text-red-400 tracking-widest">PREÇOS</span>
             </div>
             <h2 className="text-5xl md:text-6xl font-black">
               Simples e
               <br />
-              <span className="text-cyan-400">Transparente</span>
+              <span className="text-red-400">Transparente</span>
             </h2>
           </div>
 
-          <div className="relative p-12 border-2 border-dashed border-cyan-400" data-scroll-animate>
-            <div className="absolute -top-4 -right-4 w-8 h-8 bg-cyan-400 flex items-center justify-center">
+          <div className="relative p-12 border-2 border-dashed border-red-400" data-scroll-animate>
+            <div className="absolute -top-4 -right-4 w-8 h-8 bg-red-400 flex items-center justify-center">
               <span className="text-black font-black text-sm">$</span>
             </div>
 
@@ -226,12 +226,12 @@ export default function Home() {
 
             <div className="mb-10">
               <div className="text-5xl font-black">
-                R$ <span className="text-cyan-400">80</span>
+                R$ <span className="text-red-400">80</span>
                 <span className="text-xl text-slate-400 font-normal">/mês</span>
               </div>
             </div>
 
-            <ul className="space-y-4 mb-10">
+              <ul className="space-y-4 mb-10">
               {[
                 "Landing page responsiva e moderna",
                 "Design personalizado",
@@ -242,13 +242,13 @@ export default function Home() {
                 "Performance otimizada"
               ].map((feature, idx) => (
                 <li key={idx} className="flex items-center gap-3 text-slate-300">
-                  <div className="w-2 h-2 bg-lime-400"></div>
+                  <div className="w-2 h-2 bg-green-400"></div>
                   {feature}
                 </li>
               ))}
             </ul>
 
-            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block w-full py-4 px-8 bg-lime-400 text-black font-black text-center hover:bg-yellow-400 transition-all">
+            <a href={whatsappLink} target="_blank" rel="noopener noreferrer" className="block w-full py-4 px-8 bg-green-400 text-black font-black text-center hover:bg-yellow-400 transition-all">
               COMEÇAR AGORA
             </a>
           </div>
