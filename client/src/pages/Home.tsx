@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
+import CookieConsent from '@/components/CookieConsent';
 import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Particle {
@@ -689,6 +690,9 @@ export default function Home() {
           animation: fade-in 0.6s ease-out forwards;
         }
       `}</style>
+
+      {/* Cookie Consent */}
+      <CookieConsent />
     </div>
   );
 }
