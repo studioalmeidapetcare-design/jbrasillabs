@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
 
@@ -12,7 +10,7 @@ export default function Home() {
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0 });
-  const orbitElementsRef = useRef<HTMLDivElement[]>([]);
+  const particlesRef = useRef<HTMLDivElement[]>([]);
 
   const translations = {
     pt: {
@@ -192,7 +190,7 @@ export default function Home() {
       developWithQuality: 'Desarrollamos con calidad',
       launch: 'Lanzamiento',
       pageGeneratesResults: 'Tu página genera resultados',
-      readyToStart: '¿Listo para comenzar?',
+      readyToStart: 'Listo para comenzar?',
       transformVisitors: 'Transforma tus visitantes en clientes con una página de destino que realmente vende.',
       letsChat: 'HABLEMOS',
       allRightsReserved: 'Todos los derechos reservados.',
@@ -214,10 +212,10 @@ export default function Home() {
       setMousePos({ x: newX, y: newY });
       lastMousePos.current = { x: newX, y: newY };
 
-      if (orbitElementsRef.current) {
-        orbitElementsRef.current.forEach((el, idx) => {
+      if (particlesRef.current) {
+        particlesRef.current.forEach((el, idx) => {
           if (el) {
-            const angle = (idx * Math.PI * 2) / orbitElementsRef.current.length;
+            const angle = (idx * Math.PI * 2) / particlesRef.current.length;
             const distance = 150 + Math.sin(Date.now() / 1000 + idx) * 30;
             const x = Math.cos(angle) * distance + (newX - window.innerWidth / 2) * 0.05;
             const y = Math.sin(angle) * distance + (newY - window.innerHeight / 2) * 0.05;
@@ -275,26 +273,24 @@ export default function Home() {
         }}
       />
 
-      {/* Orbit elements */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div
-          ref={(el) => {
-            if (el) orbitElementsRef.current[0] = el;
-          }}
-          className="absolute top-1/2 left-1/2 w-4 h-4 bg-green-400 rounded-full shadow-lg shadow-green-400/50"
-        />
-        <div
-          ref={(el) => {
-            if (el) orbitElementsRef.current[1] = el;
-          }}
-          className="absolute top-1/2 left-1/2 w-3 h-3 bg-cyan-400 rounded-full shadow-lg shadow-cyan-400/50"
-        />
-        <div
-          ref={(el) => {
-            if (el) orbitElementsRef.current[2] = el;
-          }}
-          className="absolute top-1/2 left-1/2 w-3 h-3 bg-green-400 rounded-full shadow-lg shadow-green-400/50"
-        />
+      {/* Animated particles */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        {[0, 1, 2, 3, 4].map((idx) => (
+          <div
+            key={idx}
+            ref={(el) => {
+              if (el) particlesRef.current[idx] = el;
+            }}
+            className={`absolute top-1/2 left-1/2 w-3 h-3 rounded-full shadow-lg ${
+              idx % 2 === 0
+                ? 'bg-green-400 shadow-green-400/50'
+                : 'bg-cyan-400 shadow-cyan-400/50'
+            }`}
+            style={{
+              animation: `float ${3 + idx}s ease-in-out infinite`,
+            }}
+          />
+        ))}
       </div>
 
       {/* Navigation */}
@@ -382,7 +378,7 @@ export default function Home() {
           href={whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="group relative px-6 py-2 font-bold text-sm overflow-hidden"
+          className="group relative px-6 py-2 font-bold text-sm overflow-hidden rounded"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
           <span className="relative z-10 text-black flex items-center gap-2">
@@ -472,7 +468,7 @@ export default function Home() {
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              {t.whatYouGet} <span className="text-green-400">{t.everything}</span>
+              {t.whatYouGet}
             </h2>
           </div>
 
@@ -565,7 +561,7 @@ export default function Home() {
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              {t.simplePrice} <span className="text-green-400">Simples</span>
+              {t.simplePrice}
             </h2>
           </div>
 
@@ -617,7 +613,7 @@ export default function Home() {
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              {t.howItWorks} <span className="text-green-400">funciona</span>
+              {t.howItWorks}
             </h2>
           </div>
 
@@ -651,7 +647,7 @@ export default function Home() {
             className="opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-6">
-              {t.readyToStart} <span className="text-green-400">começar?</span>
+              {t.readyToStart}
             </h2>
             <p className="text-xl text-gray-300 mb-8">
               {t.transformVisitors}
@@ -679,6 +675,36 @@ export default function Home() {
           <p>© 2026 JBrasil Labs. {t.allRightsReserved}</p>
         </div>
       </footer>
+
+      <style>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+
+        [data-animate][data-visible="true"] {
+          animation: fade-in 0.6s ease-out forwards;
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 }
