@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
 import WhatsAppWidget from '@/components/WhatsAppWidget';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface Particle {
   id: number;
@@ -13,8 +14,11 @@ interface Particle {
 }
 
 export default function Home() {
+  const { trackConversions } = useAnalytics();
   const whatsappLink = "https://wa.me/message/UFGRJBVOAYWQN1";
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollDepth, setScrollDepth] = useState(0);
+  const pageLoadTimeRef = useRef<number>(Date.now());
   const [language, setLanguage] = useState('pt');
   const [showMenu, setShowMenu] = useState(false);
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
@@ -309,6 +313,28 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  // Track page load time
+  useEffect(() => {
+    const loadTime = Date.now() - pageLoadTimeRef.current;
+    trackConversions.pageLoadTime(loadTime);
+  }, [trackConversions]);
+
+  // Track scroll depth
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolled = window.scrollY;
+      const depth = scrollHeight > 0 ? Math.round((scrolled / scrollHeight) * 100) : 0;
+      
+      if (depth === 25 || depth === 50 || depth === 75) {
+        trackConversions.scrollDepth(depth);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [trackConversions]);
+
   return (
     <div ref={containerRef} className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Animated particles canvas */}
@@ -399,6 +425,7 @@ export default function Home() {
           href={whatsappLink}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => trackConversions.clickCTA(t.begin)}
           className="group relative px-6 py-2 font-bold text-sm overflow-hidden rounded"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>

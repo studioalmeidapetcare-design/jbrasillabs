@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
+import { useAnalytics } from '@/hooks/useAnalytics';
 
 interface WhatsAppWidgetProps {
   phoneNumber: string;
@@ -7,11 +8,13 @@ interface WhatsAppWidgetProps {
 }
 
 export default function WhatsAppWidget({ phoneNumber, message = "Olá! Como posso ajudar?" }: WhatsAppWidgetProps) {
+  const { trackConversions } = useAnalytics();
   const [isOpen, setIsOpen] = useState(false);
   const [inputMessage, setInputMessage] = useState('');
 
   const handleSendMessage = () => {
     if (inputMessage.trim()) {
+      trackConversions.whatsappMessage(inputMessage);
       const encodedMessage = encodeURIComponent(inputMessage);
       window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
       setInputMessage('');
@@ -86,7 +89,10 @@ export default function WhatsAppWidget({ phoneNumber, message = "Olá! Como poss
 
       {/* Floating Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          trackConversions.whatsappOpen();
+          setIsOpen(!isOpen);
+        }}
         className="group relative w-16 h-16 bg-gradient-to-br from-green-400 to-cyan-400 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 flex items-center justify-center hover:scale-110 active:scale-95"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-cyan-400 rounded-full opacity-0 group-hover:opacity-20 blur-lg transition-opacity"></div>

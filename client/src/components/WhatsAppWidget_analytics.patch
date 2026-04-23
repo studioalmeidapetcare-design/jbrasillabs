@@ -1,0 +1,22 @@
+// Add this import at the top
+import { useAnalytics } from '@/hooks/useAnalytics';
+
+// Inside the component, add after the useState declarations:
+const { trackConversions } = useAnalytics();
+
+// Update handleSendMessage function:
+const handleSendMessage = () => {
+  if (inputMessage.trim()) {
+    trackConversions.whatsappMessage(inputMessage);
+    const encodedMessage = encodeURIComponent(inputMessage);
+    window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+    setInputMessage('');
+    setIsOpen(false);
+  }
+};
+
+// Update button onClick:
+onClick={() => {
+  trackConversions.whatsappOpen();
+  setIsOpen(!isOpen);
+}}
