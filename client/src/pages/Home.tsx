@@ -1,15 +1,206 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowRight, Code2, Zap, Shield, TrendingUp, Rocket, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Code2, Shield, TrendingUp, Rocket, CheckCircle2, Globe, MapPin } from 'lucide-react';
 
 export default function Home() {
   const whatsappLink = "https://wa.me/message/UFGRJBVOAYWQN1";
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [mouseVelocity, setMouseVelocity] = useState({ x: 0, y: 0 });
+  const [language, setLanguage] = useState('pt');
+  const [showMenu, setShowMenu] = useState(false);
+  const [showLanguageMenu, setShowLanguageMenu] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0 });
   const orbitElementsRef = useRef<HTMLDivElement[]>([]);
+
+  const translations = {
+    pt: {
+      sitemap: 'Mapa do Site',
+      home: 'Início',
+      services: 'Serviços',
+      pricing: 'Preços',
+      process: 'Processo',
+      language: 'Idioma',
+      portuguese: 'Português',
+      english: 'English',
+      spanish: 'Español',
+      webDevelopment: 'DESENVOLVIMENTO WEB PROFISSIONAL',
+      landingPages: 'Landing Pages',
+      thatSell: 'Que Vendem',
+      description: 'Design futurista, SEO otimizado e conversão garantida. Sua presença digital começa aqui.',
+      requestQuote: 'SOLICITAR ORÇAMENTO',
+      projects: 'Projetos Entregues',
+      satisfaction: 'Satisfação',
+      fastDelivery: 'Entrega Rápida',
+      whatYouGet: 'O que você recebe',
+      everything: 'Tudo que sua empresa precisa para dominar o digital',
+      futuristicDesign: 'Design Futurista',
+      futuristicDesc: 'Interfaces modernas que impressionam e convertem seus visitantes em clientes',
+      seoIntegrated: 'SEO Integrado',
+      seoDesc: 'Otimizado para Google desde o início. Tráfego orgânico garantido',
+      support24: 'Suporte 24/7',
+      supportDesc: 'Sempre disponível para ajudar. Sua página nunca fica offline',
+      digitalIdentity: 'Sua Identidade Digital',
+      identityText: 'No mundo digital, sua presença online é o primeiro contato com seus clientes. Uma identidade visual forte e profissional não é luxo, é necessidade. Sabemos que tempo é dinheiro. Por isso, entregamos sua landing page em menos de 48 horas.',
+      fast: 'Rápido',
+      fastDesc: 'Entrega em 48 horas',
+      effective: 'Efetivo',
+      effectiveDesc: 'Convertendo visitantes',
+      secure: 'Seguro',
+      secureDesc: 'SSL e backup inclusos',
+      completeIdentity: 'IDENTIDADE DIGITAL COMPLETA',
+      inLessThan48: 'Em menos de 48 horas',
+      simplePrice: 'Preço Simples',
+      professionalLanding: 'Landing Page Profissional',
+      responsiveLanding: 'Landing page responsiva',
+      customDesign: 'Design personalizado',
+      seoOptimized: 'Otimizado para SEO',
+      sslCertificate: 'Certificado SSL',
+      maintenanceIncluded: 'Manutenção incluída',
+      whatsappIntegration: 'Integração WhatsApp',
+      optimizedPerformance: 'Performance otimizada',
+      startNow: 'COMEÇAR AGORA',
+      howItWorks: 'Como funciona',
+      conversation: 'Conversa',
+      understandObjectives: 'Entendemos seus objetivos',
+      design: 'Design',
+      createUnique: 'Criamos seu design único',
+      development: 'Desenvolvimento',
+      developWithQuality: 'Desenvolvemos com qualidade',
+      launch: 'Lançamento',
+      pageGeneratesResults: 'Sua página gera resultados',
+      readyToStart: 'Pronto para começar?',
+      transformVisitors: 'Transforme seus visitantes em clientes com uma landing page que realmente vende.',
+      letsChat: 'VAMOS CONVERSAR',
+      allRightsReserved: 'Todos os direitos reservados.',
+      begin: 'COMEÇAR'
+    },
+    en: {
+      sitemap: 'Sitemap',
+      home: 'Home',
+      services: 'Services',
+      pricing: 'Pricing',
+      process: 'Process',
+      language: 'Language',
+      portuguese: 'Português',
+      english: 'English',
+      spanish: 'Español',
+      webDevelopment: 'PROFESSIONAL WEB DEVELOPMENT',
+      landingPages: 'Landing Pages',
+      thatSell: 'That Sell',
+      description: 'Futuristic design, optimized SEO and guaranteed conversion. Your digital presence starts here.',
+      requestQuote: 'REQUEST QUOTE',
+      projects: 'Projects Delivered',
+      satisfaction: 'Satisfaction',
+      fastDelivery: 'Fast Delivery',
+      whatYouGet: 'What you get',
+      everything: 'Everything your company needs to dominate the digital world',
+      futuristicDesign: 'Futuristic Design',
+      futuristicDesc: 'Modern interfaces that impress and convert your visitors into customers',
+      seoIntegrated: 'Integrated SEO',
+      seoDesc: 'Optimized for Google from the start. Organic traffic guaranteed',
+      support24: '24/7 Support',
+      supportDesc: 'Always available to help. Your page never goes offline',
+      digitalIdentity: 'Your Digital Identity',
+      identityText: 'In the digital world, your online presence is the first contact with your customers. A strong and professional visual identity is not a luxury, it is a necessity. We know that time is money. That is why we deliver your landing page in less than 48 hours.',
+      fast: 'Fast',
+      fastDesc: 'Delivery in 48 hours',
+      effective: 'Effective',
+      effectiveDesc: 'Converting visitors',
+      secure: 'Secure',
+      secureDesc: 'SSL and backups included',
+      completeIdentity: 'COMPLETE DIGITAL IDENTITY',
+      inLessThan48: 'In less than 48 hours',
+      simplePrice: 'Simple Price',
+      professionalLanding: 'Professional Landing Page',
+      responsiveLanding: 'Responsive landing page',
+      customDesign: 'Custom design',
+      seoOptimized: 'Optimized for SEO',
+      sslCertificate: 'SSL Certificate',
+      maintenanceIncluded: 'Maintenance included',
+      whatsappIntegration: 'WhatsApp Integration',
+      optimizedPerformance: 'Optimized performance',
+      startNow: 'START NOW',
+      howItWorks: 'How it works',
+      conversation: 'Conversation',
+      understandObjectives: 'We understand your objectives',
+      design: 'Design',
+      createUnique: 'We create your unique design',
+      development: 'Development',
+      developWithQuality: 'We develop with quality',
+      launch: 'Launch',
+      pageGeneratesResults: 'Your page generates results',
+      readyToStart: 'Ready to start?',
+      transformVisitors: 'Transform your visitors into customers with a landing page that really sells.',
+      letsChat: 'LETS CHAT',
+      allRightsReserved: 'All rights reserved.',
+      begin: 'BEGIN'
+    },
+    es: {
+      sitemap: 'Mapa del Sitio',
+      home: 'Inicio',
+      services: 'Servicios',
+      pricing: 'Precios',
+      process: 'Proceso',
+      language: 'Idioma',
+      portuguese: 'Português',
+      english: 'English',
+      spanish: 'Español',
+      webDevelopment: 'DESARROLLO WEB PROFESIONAL',
+      landingPages: 'Páginas de Destino',
+      thatSell: 'Que Venden',
+      description: 'Diseño futurista, SEO optimizado y conversión garantizada. Tu presencia digital comienza aquí.',
+      requestQuote: 'SOLICITAR PRESUPUESTO',
+      projects: 'Proyectos Entregados',
+      satisfaction: 'Satisfacción',
+      fastDelivery: 'Entrega Rápida',
+      whatYouGet: 'Lo que recibes',
+      everything: 'Todo lo que tu empresa necesita para dominar el mundo digital',
+      futuristicDesign: 'Diseño Futurista',
+      futuristicDesc: 'Interfaces modernas que impresionan y convierten tus visitantes en clientes',
+      seoIntegrated: 'SEO Integrado',
+      seoDesc: 'Optimizado para Google desde el inicio. Tráfico orgánico garantizado',
+      support24: 'Soporte 24/7',
+      supportDesc: 'Siempre disponible para ayudarte. Tu página nunca se desconecta',
+      digitalIdentity: 'Tu Identidad Digital',
+      identityText: 'En el mundo digital, tu presencia en línea es el primer contacto con tus clientes. Una identidad visual fuerte y profesional no es un lujo, es una necesidad. Sabemos que el tiempo es dinero. Por eso entregamos tu página de destino en menos de 48 horas.',
+      fast: 'Rápido',
+      fastDesc: 'Entrega en 48 horas',
+      effective: 'Efectivo',
+      effectiveDesc: 'Convirtiendo visitantes',
+      secure: 'Seguro',
+      secureDesc: 'SSL y copias de seguridad incluidas',
+      completeIdentity: 'IDENTIDAD DIGITAL COMPLETA',
+      inLessThan48: 'En menos de 48 horas',
+      simplePrice: 'Precio Simple',
+      professionalLanding: 'Página de Destino Profesional',
+      responsiveLanding: 'Página de destino responsiva',
+      customDesign: 'Diseño personalizado',
+      seoOptimized: 'Optimizado para SEO',
+      sslCertificate: 'Certificado SSL',
+      maintenanceIncluded: 'Mantenimiento incluido',
+      whatsappIntegration: 'Integración de WhatsApp',
+      optimizedPerformance: 'Rendimiento optimizado',
+      startNow: 'COMENZAR AHORA',
+      howItWorks: 'Cómo funciona',
+      conversation: 'Conversación',
+      understandObjectives: 'Entendemos tus objetivos',
+      design: 'Diseño',
+      createUnique: 'Creamos tu diseño único',
+      development: 'Desarrollo',
+      developWithQuality: 'Desarrollamos con calidad',
+      launch: 'Lanzamiento',
+      pageGeneratesResults: 'Tu página genera resultados',
+      readyToStart: '¿Listo para comenzar?',
+      transformVisitors: 'Transforma tus visitantes en clientes con una página de destino que realmente vende.',
+      letsChat: 'HABLEMOS',
+      allRightsReserved: 'Todos los derechos reservados.',
+      begin: 'COMENZAR'
+    }
+  };
+
+  const t = translations[language as keyof typeof translations];
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -40,7 +231,6 @@ export default function Home() {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  // Scroll animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -116,6 +306,78 @@ export default function Home() {
             className="h-12 w-auto opacity-90 hover:opacity-100 transition-opacity duration-300" 
           />
         </div>
+        
+        <div className="flex items-center gap-4">
+          {/* Sitemap Menu */}
+          <div className="relative">
+            <button
+              onClick={() => setShowMenu(!showMenu)}
+              className="flex items-center gap-2 px-4 py-2 text-green-400 hover:text-green-300 transition-colors"
+            >
+              <MapPin className="w-4 h-4" />
+              <span className="text-sm font-medium">{t.sitemap}</span>
+            </button>
+            {showMenu && (
+              <div className="absolute right-0 mt-2 w-48 bg-black/90 border border-green-400/50 rounded-lg overflow-hidden backdrop-blur-lg">
+                <a href="#home" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
+                  {t.home}
+                </a>
+                <a href="#services" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
+                  {t.services}
+                </a>
+                <a href="#pricing" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
+                  {t.pricing}
+                </a>
+                <a href="#process" className="block px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm">
+                  {t.process}
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setShowLanguageMenu(!showLanguageMenu)}
+              className="flex items-center gap-2 px-4 py-2 text-green-400 hover:text-green-300 transition-colors"
+            >
+              <Globe className="w-4 h-4" />
+              <span className="text-sm font-medium">{language.toUpperCase()}</span>
+            </button>
+            {showLanguageMenu && (
+              <div className="absolute right-0 mt-2 w-40 bg-black/90 border border-green-400/50 rounded-lg overflow-hidden backdrop-blur-lg">
+                <button
+                  onClick={() => {
+                    setLanguage('pt');
+                    setShowLanguageMenu(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm"
+                >
+                  {t.portuguese}
+                </button>
+                <button
+                  onClick={() => {
+                    setLanguage('en');
+                    setShowLanguageMenu(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm"
+                >
+                  {t.english}
+                </button>
+                <button
+                  onClick={() => {
+                    setLanguage('es');
+                    setShowLanguageMenu(false);
+                  }}
+                  className="w-full text-left px-4 py-3 text-gray-300 hover:text-green-400 hover:bg-green-400/10 transition-colors text-sm"
+                >
+                  {t.spanish}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         <a
           href={whatsappLink}
           target="_blank"
@@ -124,21 +386,21 @@ export default function Home() {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
           <span className="relative z-10 text-black flex items-center gap-2">
-            COMEÇAR
+            {t.begin}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </span>
         </a>
       </nav>
 
       {/* Hero Section */}
-      <section className="relative z-10 min-h-screen flex items-center justify-center px-4 pt-20">
+      <section id="home" className="relative z-10 min-h-screen flex items-center justify-center px-4 pt-20">
         <div className="max-w-5xl mx-auto text-center">
           <div
             data-animate
             className="mb-6 inline-block px-4 py-2 border border-green-400/50 rounded-full text-green-400 text-sm font-medium opacity-0 animate-fade-in"
             style={{ animationDelay: '0.1s' }}
           >
-            ✨ DESENVOLVIMENTO WEB PROFISSIONAL
+            ✨ {t.webDevelopment}
           </div>
 
           <h1
@@ -146,10 +408,10 @@ export default function Home() {
             className="text-6xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight opacity-0 animate-fade-in"
             style={{ animationDelay: '0.2s' }}
           >
-            <span className="text-white">Landing Pages</span>
+            <span className="text-white">{t.landingPages}</span>
             <br />
             <span className="bg-gradient-to-r from-green-400 via-cyan-400 to-green-400 bg-clip-text text-transparent">
-              Que Vendem
+              {t.thatSell}
             </span>
           </h1>
 
@@ -158,7 +420,7 @@ export default function Home() {
             className="text-xl md:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto opacity-0 animate-fade-in"
             style={{ animationDelay: '0.3s' }}
           >
-            Design futurista, SEO otimizado e conversão garantida. Sua presença digital começa aqui.
+            {t.description}
           </p>
 
           <div
@@ -174,7 +436,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
               <span className="relative z-10 text-black flex items-center justify-center gap-2">
-                SOLICITAR ORÇAMENTO
+                {t.requestQuote}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </a>
@@ -188,51 +450,50 @@ export default function Home() {
           >
             <div className="border border-green-400/30 rounded-lg p-6 backdrop-blur-sm bg-green-400/5 hover:bg-green-400/10 transition-colors">
               <div className="text-3xl font-bold text-green-400 mb-2">500+</div>
-              <div className="text-gray-400 text-sm">Projetos Entregues</div>
+              <div className="text-gray-400 text-sm">{t.projects}</div>
             </div>
             <div className="border border-cyan-400/30 rounded-lg p-6 backdrop-blur-sm bg-cyan-400/5 hover:bg-cyan-400/10 transition-colors">
               <div className="text-3xl font-bold text-cyan-400 mb-2">98%</div>
-              <div className="text-gray-400 text-sm">Satisfação</div>
+              <div className="text-gray-400 text-sm">{t.satisfaction}</div>
             </div>
             <div className="border border-green-400/30 rounded-lg p-6 backdrop-blur-sm bg-green-400/5 hover:bg-green-400/10 transition-colors">
               <div className="text-3xl font-bold text-green-400 mb-2">48h</div>
-              <div className="text-gray-400 text-sm">Entrega Rápida</div>
+              <div className="text-gray-400 text-sm">{t.fastDelivery}</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="relative z-10 py-24 px-4">
+      <section id="services" className="relative z-10 py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <div
             data-animate
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              O que você <span className="text-green-400">recebe</span>
+              {t.whatYouGet} <span className="text-green-400">{t.everything}</span>
             </h2>
-            <p className="text-gray-400 text-lg">Tudo que sua empresa precisa para dominar o digital</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
                 icon: Code2,
-                title: "Design Futurista",
-                desc: "Interfaces modernas que impressionam e convertem seus visitantes em clientes",
+                title: t.futuristicDesign,
+                desc: t.futuristicDesc,
                 color: "green"
               },
               {
                 icon: TrendingUp,
-                title: "SEO Integrado",
-                desc: "Otimizado para Google desde o início. Tráfego orgânico garantido",
+                title: t.seoIntegrated,
+                desc: t.seoDesc,
                 color: "cyan"
               },
               {
                 icon: Shield,
-                title: "Suporte 24/7",
-                desc: "Sempre disponível para ajudar. Sua página nunca fica offline",
+                title: t.support24,
+                desc: t.supportDesc,
                 color: "green"
               }
             ].map((service, idx) => (
@@ -267,17 +528,17 @@ export default function Home() {
             className="border border-green-400/50 rounded-2xl p-12 backdrop-blur-sm bg-green-400/5 opacity-0 animate-fade-in"
           >
             <h2 className="text-4xl md:text-5xl font-black mb-6">
-              Sua Identidade Digital
+              {t.digitalIdentity}
             </h2>
             <p className="text-lg text-gray-300 mb-8">
-              No mundo digital, sua presença online é o primeiro contato com seus clientes. Uma identidade visual forte e profissional não é luxo, é necessidade. Sabemos que tempo é dinheiro. Por isso, entregamos sua landing page em menos de 48 horas.
+              {t.identityText}
             </p>
 
             <div className="grid md:grid-cols-3 gap-6 mb-8">
               {[
-                { icon: Rocket, label: "Rápido", desc: "Entrega em 48 horas" },
-                { icon: TrendingUp, label: "Efetivo", desc: "Convertendo visitantes" },
-                { icon: Shield, label: "Seguro", desc: "SSL e backup inclusos" }
+                { icon: Rocket, label: t.fast, desc: t.fastDesc },
+                { icon: TrendingUp, label: t.effective, desc: t.effectiveDesc },
+                { icon: Shield, label: t.secure, desc: t.secureDesc }
               ].map((item, idx) => (
                 <div key={idx} className="text-center">
                   <item.icon className="w-10 h-10 text-green-400 mx-auto mb-3" />
@@ -289,22 +550,22 @@ export default function Home() {
 
             <div className="bg-black/50 border border-green-400/30 rounded-lg p-6 text-center">
               <div className="text-4xl font-black text-green-400 mb-2">R$ 450</div>
-              <div className="text-gray-300">IDENTIDADE DIGITAL COMPLETA</div>
-              <div className="text-sm text-gray-400 mt-2">Em menos de 48 horas</div>
+              <div className="text-gray-300">{t.completeIdentity}</div>
+              <div className="text-sm text-gray-400 mt-2">{t.inLessThan48}</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Pricing Section */}
-      <section className="relative z-10 py-24 px-4">
+      <section id="pricing" className="relative z-10 py-24 px-4">
         <div className="max-w-4xl mx-auto">
           <div
             data-animate
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              Preço <span className="text-green-400">Simples</span>
+              {t.simplePrice} <span className="text-green-400">Simples</span>
             </h2>
           </div>
 
@@ -312,18 +573,18 @@ export default function Home() {
             data-animate
             className="border border-green-400/50 rounded-2xl p-12 backdrop-blur-sm bg-green-400/5 opacity-0 animate-fade-in"
           >
-            <h3 className="text-3xl font-bold mb-6">Landing Page Profissional</h3>
+            <h3 className="text-3xl font-bold mb-6">{t.professionalLanding}</h3>
             <div className="text-5xl font-black text-green-400 mb-8">R$ 450</div>
 
             <ul className="space-y-4 mb-12">
               {[
-                "Landing page responsiva",
-                "Design personalizado",
-                "Otimizado para SEO",
-                "Certificado SSL",
-                "Manutenção incluída",
-                "Integração WhatsApp",
-                "Performance otimizada"
+                t.responsiveLanding,
+                t.customDesign,
+                t.seoOptimized,
+                t.sslCertificate,
+                t.maintenanceIncluded,
+                t.whatsappIntegration,
+                t.optimizedPerformance
               ].map((feature, idx) => (
                 <li key={idx} className="flex items-center gap-3">
                   <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0" />
@@ -340,7 +601,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
               <span className="relative z-10 text-black flex items-center justify-center gap-2">
-                COMEÇAR AGORA
+                {t.startNow}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </a>
@@ -349,23 +610,23 @@ export default function Home() {
       </section>
 
       {/* Process Section */}
-      <section className="relative z-10 py-24 px-4">
+      <section id="process" className="relative z-10 py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <div
             data-animate
             className="text-center mb-16 opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-4">
-              Como <span className="text-green-400">funciona</span>
+              {t.howItWorks} <span className="text-green-400">funciona</span>
             </h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { num: "01", title: "Conversa", desc: "Entendemos seus objetivos" },
-              { num: "02", title: "Design", desc: "Criamos seu design único" },
-              { num: "03", title: "Desenvolvimento", desc: "Desenvolvemos com qualidade" },
-              { num: "04", title: "Lançamento", desc: "Sua página gera resultados" }
+              { num: "01", title: t.conversation, desc: t.understandObjectives },
+              { num: "02", title: t.design, desc: t.createUnique },
+              { num: "03", title: t.development, desc: t.developWithQuality },
+              { num: "04", title: t.launch, desc: t.pageGeneratesResults }
             ].map((step, idx) => (
               <div
                 key={idx}
@@ -390,10 +651,10 @@ export default function Home() {
             className="opacity-0 animate-fade-in"
           >
             <h2 className="text-5xl md:text-6xl font-black mb-6">
-              Pronto para <span className="text-green-400">começar?</span>
+              {t.readyToStart} <span className="text-green-400">começar?</span>
             </h2>
             <p className="text-xl text-gray-300 mb-8">
-              Transforme seus visitantes em clientes com uma landing page que realmente vende.
+              {t.transformVisitors}
             </p>
 
             <a
@@ -404,7 +665,7 @@ export default function Home() {
             >
               <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-cyan-400 group-hover:from-cyan-400 group-hover:to-green-400 transition-all duration-300"></div>
               <span className="relative z-10 text-black flex items-center gap-2">
-                VAMOS CONVERSAR
+                {t.letsChat}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </a>
@@ -415,7 +676,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="relative z-10 border-t border-green-400/20 py-12 px-4 mt-24">
         <div className="max-w-6xl mx-auto text-center text-gray-400">
-          <p>© 2026 JBrasil Labs. Todos os direitos reservados.</p>
+          <p>© 2026 JBrasil Labs. {t.allRightsReserved}</p>
         </div>
       </footer>
     </div>
