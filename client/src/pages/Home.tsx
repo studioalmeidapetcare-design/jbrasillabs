@@ -141,7 +141,7 @@ export default function Home() {
           </h1>
 
           <p className="text-2xl text-slate-300 mb-12 max-w-3xl mx-auto animate-fade-in font-light" style={{ animationDelay: '0.2s' }}>
-            A partir de <span className="text-green-400 font-black">R$ 80/mês</span>
+            A partir de <span className="text-green-400 font-black">R$ 450</span>
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center animate-fade-in" style={{ animationDelay: '0.3s' }}>
@@ -245,8 +245,7 @@ export default function Home() {
 
             <div className="mb-10">
               <div className="text-6xl font-black">
-                R$ <span className="bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent">80</span>
-                <span className="text-xl text-slate-400 font-normal">/mês</span>
+                R$ <span className="bg-gradient-to-r from-red-400 to-yellow-400 bg-clip-text text-transparent">450</span>
               </div>
             </div>
 
